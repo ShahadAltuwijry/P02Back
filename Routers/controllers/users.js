@@ -113,17 +113,43 @@ const updateUser = (req, res) => {
   }
 };
 
-const addVisit = (req, res) => {
-  const { ObjectId } = req.params;
+const addVisit = async (req, res) => {
+  const { id, ObjectId } = req.params;
+  // const { ObjectId } = req.params;
+  console.log(id, ObjectId);
+  const user = await userModel.findOne({ _id: id });
 
-  userModel
-    .findByIdAndUpdate({ $push: { spotsSchema: ObjectId } }, { new: true })
-    .then((result) => {
-      res.send(result);
-    })
-    .catch((err) => {
-      res.send(err);
-    });
+  if (user.visits.includes(ObjectId)) {
+    userModel
+      .findOneAndUpdate(
+        { _id: id },
+        { $pull: { visits: ObjectId } },
+        { new: true }
+      )
+
+      .then((result) => {
+        res.send(result);
+      })
+      .catch((err) => {
+        console.log(err);
+        res.send(err);
+      });
+  } else {
+    userModel
+      .findOneAndUpdate(
+        { _id: id },
+        { $push: { visits: ObjectId } },
+        { new: true }
+      )
+
+      .then((result) => {
+        res.send(result);
+      })
+      .catch((err) => {
+        console.log(err);
+        res.send(err);
+      });
+  }
 };
 
 module.exports = { createUser, getAllUsers, updateUser, login, addVisit };

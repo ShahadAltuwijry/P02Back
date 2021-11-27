@@ -13,6 +13,6 @@ userRouter.post("/user", createUser);
 userRouter.get("/users", getAllUsers);
 userRouter.put("/user/:id", updateUser);
 userRouter.post("/login", login);
-userRouter.post("/add/:ObjectId", addVisit);
+userRouter.put("/add/:id/:ObjectId", addVisit);
 
 module.exports = userRouter;

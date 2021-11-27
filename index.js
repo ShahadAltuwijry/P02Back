@@ -19,7 +19,7 @@ app.use(spotRouter);
 app.use(programRouter);
 app.use(packageRouter);
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT;
 
 app.listen(PORT, () => {
   console.log(`server is on port ${PORT}`);
