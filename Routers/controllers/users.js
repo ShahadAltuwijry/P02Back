@@ -7,12 +7,26 @@ const createUser = async (req, res) => {
     await user.save();
     userModel.findOne({ email: email }, (err, user) => {
       if (user) {
-        return res.send({ message: "Login Successfuly", user: user });
+        return res.send({ message: "Sign up Successfuly", user: user });
       }
     });
   } catch (err) {
     return res.status(400).json({ message: err.message });
   }
+};
+
+const getVisits = (req, res) => {
+  const { id } = req.params;
+  userModel
+    .find({ _id: id })
+    .populate("visits")
+    .exec()
+    .then((result) => {
+      res.send(result[0].visits);
+    })
+    .catch((err) => {
+      res.send(err);
+    });
 };
 
 //login cotroller
@@ -155,4 +169,11 @@ const addVisit = async (req, res) => {
   }
 };
 
-module.exports = { createUser, getAllUsers, updateUser, login, addVisit };
+module.exports = {
+  createUser,
+  getAllUsers,
+  updateUser,
+  login,
+  addVisit,
+  getVisits,
+};
