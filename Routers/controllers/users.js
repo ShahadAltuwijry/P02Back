@@ -22,7 +22,7 @@ const getVisits = (req, res) => {
     .populate("visits")
     .exec()
     .then((result) => {
-      res.send(result);
+      res.send(result[0].visits);
     })
     .catch((err) => {
       res.send(err);
