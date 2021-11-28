@@ -119,36 +119,39 @@ const addVisit = async (req, res) => {
   console.log(id, ObjectId);
   const user = await userModel.findOne({ _id: id });
 
-  if (user.visits.includes(ObjectId)) {
-    userModel
-      .findOneAndUpdate(
-        { _id: id },
-        { $pull: { visits: ObjectId } },
-        { new: true }
-      )
+  if (user) {
+    if (user.visits.includes(ObjectId)) {
+      userModel
+        .findOneAndUpdate(
+          { _id: id },
+          { $pull: { visits: ObjectId } },
+          { new: true }
+        )
+        .then((result) => {
+          res.status(200).send(result);
+        })
+        .catch((err) => {
+          console.log(err);
+          res.status(400).json(err);
+        });
+    } else {
+      userModel
+        .findOneAndUpdate(
+          { _id: id },
+          { $push: { visits: ObjectId } },
+          { new: true }
+        )
 
-      .then((result) => {
-        res.send(result);
-      })
-      .catch((err) => {
-        console.log(err);
-        res.send(err);
-      });
+        .then((result) => {
+          res.send(result);
+        })
+        .catch((err) => {
+          console.log(err);
+          res.send(err);
+        });
+    }
   } else {
-    userModel
-      .findOneAndUpdate(
-        { _id: id },
-        { $push: { visits: ObjectId } },
-        { new: true }
-      )
-
-      .then((result) => {
-        res.send(result);
-      })
-      .catch((err) => {
-        console.log(err);
-        res.send(err);
-      });
+    res.status(400).json("invalid user");
   }
 };
 
