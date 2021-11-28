@@ -15,6 +15,6 @@ userRouter.get("/users", getAllUsers);
 userRouter.put("/user/:id", updateUser);
 userRouter.post("/login", login);
 userRouter.put("/add/:id/:ObjectId", addVisit);
-userRouter.get("/user/:id", getVisits);
+userRouter.get("/user/:name", getVisits);
 
 module.exports = userRouter;

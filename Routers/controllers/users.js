@@ -16,9 +16,9 @@ const createUser = async (req, res) => {
 };
 
 const getVisits = (req, res) => {
-  const { id } = req.params;
+  const { name } = req.params;
   userModel
-    .find({ _id: id })
+    .find({ name: name })
     .populate("visits")
     .exec()
     .then((result) => {
